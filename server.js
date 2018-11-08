@@ -66,7 +66,7 @@ var id = parseInt(req.url.slice(9));
   console.log(id)
 
 var params = {
-      TableName : "namafia",
+      TableName: "mafia-game",
       KeyConditionExpression: "#game_id = :game_id",
       ExpressionAttributeNames:{
           "#game_id": "game_id"
