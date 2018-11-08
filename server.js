@@ -72,7 +72,7 @@ var params = {
           "#game_id": "game_id"
       },
       ExpressionAttributeValues: {
-          ":game_id": String(id)
+          ":game_id": id
       }
   };
 
