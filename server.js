@@ -30,6 +30,10 @@ app.get('/', function (req, res) {
   res.send({ title: "NAMafiA Entry Point" })
 })
 
+app.get('/game', function (req, res) {
+  res.send({ title: "NAMafiA Entry Point" })
+})
+
 app.get('/getGames', function (req, res) {
 
 var params = {
