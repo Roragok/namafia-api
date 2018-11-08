@@ -9,5 +9,5 @@ pipeline:
     port: 22
     script:
       - cd /var/www/mafia-api
-      - git pull origin master # update to latest code
-      - git push origin master
+      - sudo git pull origin master # update to latest code
+      - sudo git push origin master
