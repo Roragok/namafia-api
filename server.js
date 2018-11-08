@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.set('view engine', 'jade');
 
 
-const routes = require('./routes/routes');
+//const routes = require('./routes/routes');
 
 app.get('/', function (req, res) {
   res.send({ title: "NAMafiA Entry Point" })
