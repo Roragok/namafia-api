@@ -47,10 +47,8 @@ function onScan(err, data) {
         console.log("Scan succeeded.");
         data.Items.forEach(function(item) {
            console.log(item);
-             res.send(data.Items)
-
         });
-
+         res.send(data.Items)
         if (typeof data.LastEvaluatedKey != "undefined") {
             console.log("Scanning for more...");
             params.ExclusiveStartKey = data.LastEvaluatedKey;
