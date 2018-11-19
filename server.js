@@ -89,3 +89,32 @@ docClient.query(params, function(err, data) {
 });
 
 });
+
+app.get('getDays/:game_id' , function(req,res){
+
+  var id = parseInt(req.url.slice(9));
+    console.log(req.url)
+    console.log(id)
+
+    var getParent = {}
+    getParent.TableName = "mafia-day"
+    getParent.IndexName = "parent_id-index"
+    getParent.KeyConditionExpression = "parent_id = :parent_id"
+    getParent.ExpressionAttributeValues = {
+      ":parent_id": id
+    }
+
+
+    docClient.query(getParent, function(err, data) {
+        if (err) {
+            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        } else {
+            console.log("Query succeeded.");
+            res.send(data.Items)
+            data.Items.forEach(function(game) {
+                console.log(game);
+            });
+        }
+    });
+
+});
