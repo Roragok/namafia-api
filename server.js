@@ -92,7 +92,7 @@ docClient.query(params, function(err, data) {
 
 app.get('/getDays/:game_id' , function(req,res){
 
-  var id = parseInt(req.url.slice(9));
+  var id = req.url.slice(9);
     console.log(req.url)
     console.log(id)
 
