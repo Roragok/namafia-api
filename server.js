@@ -89,6 +89,31 @@ docClient.query(params, function(err, data) {
 });
 
 });
+app.get('/getDays' , function(req,res){
+
+  var params = {
+      TableName: "mafia-day",
+  };
+  docClient.scan(params, onScan);
+  function onScan(err, data) {
+      if (err) {
+          console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+          // print all the movies
+          console.log("Scan succeeded.");
+          data.Items.forEach(function(item) {
+             console.log(item);
+          });
+           res.send(data.Items)
+          if (typeof data.LastEvaluatedKey != "undefined") {
+              console.log("Scanning for more...");
+              params.ExclusiveStartKey = data.LastEvaluatedKey;
+              docClient.scan(params, onScan);
+          }
+      }
+  }
+
+  });
 
 app.get('/getDays/:game_id' , function(req,res){
 
@@ -106,6 +131,37 @@ app.get('/getDays/:game_id' , function(req,res){
 
 
     docClient.query(getParent, function(err, data) {
+        if (err) {
+            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        } else {
+            console.log("Query succeeded.");
+            res.send(data.Items)
+            data.Items.forEach(function(game) {
+                console.log(game);
+            });
+        }
+    });
+
+});
+
+app.get('/getDay/:day_id' , function(req,res){
+
+  var id = parseInt(req.url.slice(8));
+    console.log(req.url)
+    console.log(id)
+
+    var params = {
+          TableName: "mafia-day",
+          KeyConditionExpression: "#day_id = :day_id",
+          ExpressionAttributeNames:{
+              "#day_id": "day_id"
+          },
+          ExpressionAttributeValues: {
+              ":day_id": id
+          }
+      };
+
+    docClient.query(params, function(err, data) {
         if (err) {
             console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
         } else {
