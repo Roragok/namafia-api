@@ -36,7 +36,6 @@ var params = {
     TableName: "mafia-game",
 };
 
-console.log("Getting All Games");
 docClient.scan(params, onScan);
 
 function onScan(err, data) {
@@ -118,8 +117,6 @@ app.get('/getDays' , function(req,res){
 app.get('/getDays/:game_id' , function(req,res){
 
   var id = req.url.slice(9);
-    console.log(req.url)
-    console.log(id)
 
     var getParent = {}
     getParent.TableName = "mafia-day"
@@ -129,16 +126,21 @@ app.get('/getDays/:game_id' , function(req,res){
       ":parent_id": id
     }
 
-
     docClient.query(getParent, function(err, data) {
         if (err) {
             console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
         } else {
             console.log("Query succeeded.");
-            res.send(data.Items)
+
             data.Items.forEach(function(game) {
-                console.log(game);
+              var vote_map = [];
+              Object.values(game.votes).forEach(function(vote_item){
+                 vote_map.push(vote_item);
+
+              });
+              game.votes = vote_map;
             });
+            res.send(data.Items);
         }
     });
 
