@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var AWS = require("aws-sdk");
-
+var cors = require('cors')
 var app = express();
 
 app.listen(9999, () => console.log('API listening on port 9999!'))
@@ -16,15 +16,12 @@ AWS.config.update({
 });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
-
+app.use(cors())
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'jade');
-
-
-//const routes = require('./routes/routes');
 
 app.get('/', function (req, res) {
   res.send({ title: "NAMafiA Entry Point" })
